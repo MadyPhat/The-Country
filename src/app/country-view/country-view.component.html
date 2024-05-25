@@ -1,1 +1,109 @@
-<p>country-view works!</p>
+<section class="header">
+  <img [src]="country.flags.svg" width="40px" height="24px" loading="lazy" />
+  <h3>{{ country.name.official }}</h3>
+
+  <button mat-icon-button (click)="dialogRef.close()">
+    <mat-icon>close</mat-icon>
+  </button>
+</section>
+<mat-dialog-content>
+  <section class="summary">
+    <span matTooltip="Area">
+      <mat-icon>public</mat-icon>
+      <p>{{ country.area }} km<sup>2</sup></p>
+    </span>
+    <span matTooltip="Capital">
+      <mat-icon>location_city</mat-icon>
+      {{ country.capital }}
+    </span>
+    <span matTooltip="Population">
+      <mat-icon>groups</mat-icon>
+      {{ country.population | number }}
+    </span>
+
+    <span matTooltip="Independent">
+      <mat-icon>flag</mat-icon>
+      {{ country.independent ? "Yes" : "No" }}
+    </span>
+  </section>
+  <div class="info-wrapper">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title> Overview </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <p><b>UN Menber:</b> {{ country.unMember ? "Yes" : "No" }}</p>
+        <p><b>Status:</b> {{ country.status }}</p>
+        <p>
+          <b>Currencies:</b>
+          <ng-container
+            *ngFor="let currency of getCurrencies(country.currencies)"
+          >
+            {{ currency.name }} ({{ currency.symbol }}) <br />
+          </ng-container>
+        </p>
+        <p><b>Languages:</b> {{ getLanguages(country.languages) }}</p>
+      </mat-card-content>
+    </mat-card>
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title> Naming & People </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <p><b>Official:</b> {{ country.name.official }}</p>
+        <p><b>Common:</b> {{ country.name.common }}</p>
+        <p><b>Alternative name:</b> {{ country.altSpellings.join(",") }}</p>
+        <p><b>Native name:</b> {{ getNativeName(country.name.nativeName) }}</p>
+        <p><b>CCA2/CCA3:</b> {{ country.cca2 }} / {{ country.cca3 }}</p>
+        <p>
+          <b>Demonyms:</b>
+          <ng-container
+            [ngTemplateOutlet]="enDemonyms"
+            [ngTemplateOutletContext]="{ demonyms: country?.demonyms?.eng }"
+          ></ng-container>
+        </p>
+      </mat-card-content>
+    </mat-card>
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title> Geography </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <p><b>Continent:</b> {{ country.continents.join(",") }}</p>
+        <p><b>Region:</b> {{ country.region }}</p>
+        <p><b>Sub-region:</b> {{ country.subregion }}</p>
+        <p><b>Coordinate:</b> {{ country.latlng.join(",") }}</p>
+        <p><b>Borders:</b> {{ country.borders?.join(",") }}</p>
+        <p><b>Land Locked:</b> {{ country.landlocked ? "Yes" : "No" }}</p>
+        <p>
+          <b>Map:</b>
+          <a [href]="country.maps.googleMaps" target="_blank"> Google</a>,
+          <a [href]="country.maps.openStreetMaps" target="_blank">OSM</a>
+        </p>
+        <p><b>Time zones:</b> {{ country.timezones.join(",") }}</p>
+        <p><b>Start of week:</b> {{ country.startOfWeek }}</p>
+      </mat-card-content>
+    </mat-card>
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title> Telecommunication </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <p><b>TLD:</b> {{ country.tld }}</p>
+        <p><b>CCN#:</b> {{ country.ccn3 }}</p>
+        <p>
+          <b>Code:</b>
+          <ng-container
+            *ngFor="let phone of country.idd.suffixes; let index = index"
+          >
+            {{ country.idd.root }}{{ phone }} {{ index > 0 ? "," : "" }}
+          </ng-container>
+        </p>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</mat-dialog-content>
+
+<ng-template #enDemonyms let-demonyms="demonyms">
+  Male : {{ demonyms.m }}, Female : {{ demonyms.f }}
+</ng-template>

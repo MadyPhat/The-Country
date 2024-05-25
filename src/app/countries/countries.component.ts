@@ -137,6 +137,7 @@ export class CountriesComponent implements OnInit, AfterViewInit {
   openCountryDialog(country: Country): void {
     this.dialog.open(CountryViewComponent, {
       data: country,
+      panelClass: 'country-dialog',
     });
   }
 
