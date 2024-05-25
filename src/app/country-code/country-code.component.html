@@ -1,0 +1,22 @@
+<div class="country-code">
+  <ul>
+    <ng-container *ngIf="countryCode() && showAll; else showLess">
+      <li *ngFor="let suffix of countryCode()?.suffixes">
+        {{ countryCode()?.root + suffix }}
+      </li>
+    </ng-container>
+
+    <ng-template #showLess>
+      <li *ngIf="countryCode()?.suffixes">
+        {{ countryCode()?.root + (getFirstSuffix() || "") }}
+      </li>
+    </ng-template>
+  </ul>
+
+  <span
+    class="show-all"
+    *ngIf="shouldDisplayShowButton()"
+    (click)="showAll = !showAll"
+    >{{ showAll ? "Show less" : "Show all" }}</span
+  >
+</div>

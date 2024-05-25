@@ -1,0 +1,13 @@
+.country-name {
+    cursor: pointer;
+    font-weight: 500;
+    &:hover {
+        color: #2D5CBB;
+    }
+}
+
+.search-wrapper {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+}

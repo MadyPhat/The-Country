@@ -1,0 +1,22 @@
+<div class="country-alt-name">
+  <ul>
+    <ng-container *ngIf="alternateNames && showAll; else showLess">
+      <li *ngFor="let name of alternateNames">
+        {{ name }}
+      </li>
+    </ng-container>
+
+    <ng-template #showLess>
+      <li>
+        {{ alternateNames[0] }}
+      </li>
+    </ng-template>
+  </ul>
+
+  <span
+    class="show-all"
+    *ngIf="alternateNames.length > 1"
+    (click)="showAll = !showAll"
+    >{{ showAll ? "Show less" : "Show all" }}</span
+  >
+</div>

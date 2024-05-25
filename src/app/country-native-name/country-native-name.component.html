@@ -1,0 +1,21 @@
+<div class="country-native-name">
+  <ul>
+    <ng-container *ngIf="nativeName && showAll; else showLess">
+      <li *ngFor="let lang of keys(nativeName)">
+        {{ lang }} :
+        {{ nativeName[lang]["official"] || nativeName[lang]["common"] }}
+      </li>
+    </ng-container>
+
+    <ng-template #showLess>
+      <li *ngIf="nativeName">{{ getFirstNativeName() }}</li>
+    </ng-template>
+  </ul>
+
+  <span
+    class="show-all"
+    *ngIf="shouldDisplayShowButton()"
+    (click)="showAll = !showAll"
+    >{{ showAll ? "Show less" : "Show all" }}</span
+  >
+</div>
